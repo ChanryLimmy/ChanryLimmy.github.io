@@ -19,7 +19,7 @@
   <meta name="description" content="Limmy&#39;s training ground, fighting trip with u!">
   <meta name="author" content="Limmy">
   <meta name="keywords" content="Limmy,IT,Life">
-  <title>Github+Hexo+Netlify搭建自己的博客 - Limmy&#39;s training ground</title>
+  <title>Spring事务传播级别 - Limmy&#39;s training ground</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -164,7 +164,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Github+Hexo+Netlify搭建自己的博客">
+            <span class="h2" id="subtitle" title="Spring事务传播级别">
               
             </span>
 
@@ -179,8 +179,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-02-21 00:01" pubdate>
-        星期日, 二月 21日 2021, 12:01 凌晨
+      <time datetime="2021-03-22 19:11" pubdate>
+        星期一, 三月 22日 2021, 7:11 晚上
       </time>
     </span>
   
@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.7k 字
+      707 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18
+      7
        分钟
     </span>
   
@@ -239,86 +239,24 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Github+Hexo+Netlify搭建自己的博客</h1>
+            <h1 style="display: none">Spring事务传播级别</h1>
             
             <div class="markdown-body">
-              <h1 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>说到博客，大家一定也都不陌生，通常情况下可以用来记录一些自己的想法，学习成长的笔记，分享一些不错的东西或者作品。一般传统的笔记软件如有道云笔记、印象笔记、Notion等在分享和展示方面的能力实在差强人意，可以用来做些私人化的记录。对于一些公共的文章发布平台如CSDN、简书、掘金、博客园等，自定义的程度并不高，界面观感也是参差不齐，存在广告不说，发布的博文还会面临被删帖的风险。我的空间就应该我做主，今天就带大家使用 Github + Hexo + Netlify 来搭建一个属于自己的博客，一块干净纯粹的空间。</p>
-<p>当然你也可以不使用这种方法来搭建博客，自己租一台服务器或者一个网站空间，借助 wordpress 这种成熟的博客系统或者自己写一套都是可以的。这些我都曾经尝试过，但是服务器、数据库的租赁成本对于还是一个学生的我来说有点负担不起，搭一个个人博客感觉也不太值得。最重要的是由于没有备份，租赁期限到了没续费，使得很多沉淀下来的东西付之一炬，粉丝们也都理所当然的跑了，就剩一些百度快照（当然现在可能快照都没了）。在那之后的很长一段时间里也没有什么输出，一些觉得好的东西也就随手往笔记软件里塞，或者往收藏夹里一放，也没怎么整理。随着时间的推移，接触的东西也越来越多，单凭脑子和混乱的笔记本已经不足以再支撑下去了。于是想要重新把博客搭起来，主要目的还是梳理思路、记录和分享观点，用输出倒逼输入和思考。如果我的一些思考能给予访客们一些帮助或者启发也将是我莫大的荣幸。</p>
-<h2 id="Github-Hexo-Netlify-的优点"><a href="#Github-Hexo-Netlify-的优点" class="headerlink" title="Github+Hexo+Netlify 的优点"></a>Github+Hexo+Netlify 的优点</h2><ul>
-<li>博客内容可以放在 github 上，netlify 动态拉取 github 指定仓库的内容进行部署，对 hexo 这种静态网站服务进行托管</li>
-<li>没有机器、数据库的租赁和运维成本，方便好管理，有机可追溯</li>
-<li>能够绑定自定义域名</li>
-<li>提供免费 SSL 证书，也支持自有 SSL 证书</li>
-<li>支持自动构建，仓库更新，自动拉取构建</li>
-<li>免费 CDN</li>
-<li>无需备案</li>
-</ul>
-<h1 id="着手搭建"><a href="#着手搭建" class="headerlink" title="着手搭建"></a>着手搭建</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
-<li>Github 账号一枚</li>
-<li>建立一个空 github 仓库</li>
-<li>Netlify 账号一枚</li>
-<li>Node.js &gt; 10.13</li>
-<li>Git，用于版本控制</li>
-</ul>
-<h2 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h2><p>打开终端，输入以下命令安装 hexo</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install -g hexo-cli<br></code></pre></td></tr></table></figure>
-<p>安装完成以后，执行以下命令。它会在当前目录下初始化一个名为 blog 的文件夹，当然也可以不叫 blog，将其替换成其他路径下的其他名称也是👌的</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo init blog<br></code></pre></td></tr></table></figure>
-<p> 此时你的博客其实已经搭建起来了，你可以切换到 blog 文件夹下将其运行起来。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> blog &amp;&amp; hexo server<br></code></pre></td></tr></table></figure>
-<p>打开浏览器访问 <code>http://localhost:4000</code>你就可以看到它最初的模样。</p>
-<p><img src="/2021/02/21/Github-Hexo-Netlify%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/1.jpeg" srcset="/img/loading.gif" alt="最初的模样"></p>
-<p>命令 <code>hexo generate</code>或者<code>hexo g</code>可以生成其静态页面，生成的东西会放到一个叫 public 的文件目录下，无论你是使用 gitpage 还是 netlify，它们最终呈现给用户的其实就是<code>hexo g</code>生成出来的那些静态页面。</p>
-<h2 id="初始化本地仓库并与-github-仓库关联"><a href="#初始化本地仓库并与-github-仓库关联" class="headerlink" title="初始化本地仓库并与 github 仓库关联"></a>初始化本地仓库并与 github 仓库关联</h2><p>首先确保当前目录为上面创建的 blog 目录下，执行<code>git init</code>初始化本地仓库，通过<code>git remote add origin URL</code>添加远端仓库地址，这里的 URL 可以在你创建的 github 仓库中获取。添加完成以后可以通过<code>git remote -v</code>确认一下是否配置成功。</p>
-<p>接下来就可以把本地仓库的内容推送到远端了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git add .<br>git commit -m <span class="hljs-string">&quot;init hexo blog&quot;</span><br>git push -u origin master<br></code></pre></td></tr></table></figure>
-
-
-<h2 id="将-github-仓库绑定到-netlify"><a href="#将-github-仓库绑定到-netlify" class="headerlink" title="将 github 仓库绑定到 netlify"></a>将 github 仓库绑定到 netlify</h2><p><em>这里借用 netlify 官方提供的图片</em></p>
-<ul>
-<li>首先添加站点</li>
-</ul>
-<p><img src="/2021/02/21/Github-Hexo-Netlify%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/2.png" srcset="/img/loading.gif" alt="添加站点"></p>
-<ul>
-<li>绑定 github 账号</li>
-</ul>
-<p><img src="/2021/02/21/Github-Hexo-Netlify%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/3.png" srcset="/img/loading.gif" alt="绑定github账号"></p>
-<ul>
-<li>认证</li>
-</ul>
-<p><img src="/2021/02/21/Github-Hexo-Netlify%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/4.png" srcset="/img/loading.gif" alt="认证"></p>
-<ul>
-<li>绑定仓库</li>
-</ul>
-<p><img src="/2021/02/21/Github-Hexo-Netlify%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/5.png" srcset="/img/loading.gif" alt="绑定仓库"></p>
-<ul>
-<li>构建配置</li>
-</ul>
-<p><img src="/2021/02/21/Github-Hexo-Netlify%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/6.png" srcset="/img/loading.gif" alt="构建配置"></p>
-<ul>
-<li>等待黄字变绿</li>
-</ul>
-<p><img src="/2021/02/21/Github-Hexo-Netlify%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/7.png" srcset="/img/loading.gif" alt="等待黄字变绿"></p>
-<ul>
-<li>自动分配了一个域名，点击即可访问</li>
-</ul>
-<p><img src="/2021/02/21/Github-Hexo-Netlify%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/8.png" srcset="/img/loading.gif" alt="绿了"></p>
-<ul>
-<li>修改分配的域名前缀</li>
-</ul>
-<p><img src="/2021/02/21/Github-Hexo-Netlify%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/9.png" srcset="/img/loading.gif" alt="修改分配的域名前缀"></p>
-<p>到这里，只要你的 github 仓库有更新，netlify 就会自动为你完成构建。</p>
-<h2 id="绑定自定义域名"><a href="#绑定自定义域名" class="headerlink" title="绑定自定义域名"></a>绑定自定义域名</h2><p>在 netlify 上找到自己的站点，点击 <em>Domain settings</em> 按钮，然后在下方点击 <em>Add custom domain</em> 按钮，然后在弹出框中输入自己需要绑定的完整域名，点击保存。</p>
-<p>完成这一步之后，会显示<em>Check DNS configuration</em>，这时候只需要到你购买域名的平台上将自己的域名通过 <strong><em>CNAME</em></strong> 解析的方式解析到 netlify 给你的那个域名上即可。</p>
-<h2 id="实现-HTTPS-访问"><a href="#实现-HTTPS-访问" class="headerlink" title="实现 HTTPS 访问"></a>实现 HTTPS 访问</h2><p>在<em>Domain setting</em>的最下方，可以看到 <em>HTTPS</em> 的设置，点击左边的按钮，在域名解析完成之后便会为你申请一个 SSL 证书，申请完成以后便可以实现 https 访问了，大约几分钟的时间。当然你也可以使用自己的证书，同样是在这里设置。</p>
-<h2 id="附送-gitpage-方式发布-hexo-博客方法"><a href="#附送-gitpage-方式发布-hexo-博客方法" class="headerlink" title="附送 gitpage 方式发布 hexo 博客方法"></a>附送 gitpage 方式发布 hexo 博客方法</h2><p>首先你得有一个 gitpage 的仓库，创建和使用方法也很简单，请自行百度，这里只介绍怎么将 hexo 内容发布上去。</p>
-<blockquote>
-<p>gitpage 的仓库是不能设置为 private 的，而上面我们说的这种方法创建的那个仓库是可以设置为 private 的。因为 gitpage 是拿来存放 <code>hexo g</code>生成的 public 文件夹下的静态网站数据的，这部分数据如果设置为 private 当然就没法被访问了嘛，而上面我们创建的仓库是拿来存构建前的数据文件的，相当于源码。源码仓库对于 gitpage 方式来说是非必须的，而对于 netlify 来说是必须的。</p>
-</blockquote>
-<p>通过命令<code>npm install hexo-deployer-git --save</code>安装 git 部署器，然后修改<code>_config.yml</code>文件，绑定 gitpage 仓库。</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">deploy:</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">git</span><br>  <span class="hljs-attr">repo:</span> <span class="hljs-string">https://github.com/YourgithubName/YourgithubName.github.io.git</span><br>  <span class="hljs-attr">branch:</span> <span class="hljs-string">master</span><br></code></pre></td></tr></table></figure>
-<p>每次更新以后要部署的时候执行一下<code>hexo clean &amp;&amp; hexo d</code>，然后访问<code>YourgithubName.github.io</code>看到的页面就是最新的了。</p>
-<h1 id="What’s-more"><a href="#What’s-more" class="headerlink" title="What’s more?"></a>What’s more?</h1><p>后续更多的使用，如这玩意怎么写博客，主题的切换和配置，插件的引入和使用，图片的存放和引用等内容。可以到 <a target="_blank" rel="noopener" href="https://hexo.io/docs/">Hexo 的文档</a>中以及相应的主题、插件文档中查看，这里就不一一叙述了，希望能对你有所帮助。</p>
+              <p><img src="/2021/03/22/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E7%BA%A7%E5%88%AB/1.png" srcset="/img/loading.gif" alt="汇总表"></p>
+<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><h2 id="PROPAGATION-REQUIRED"><a href="#PROPAGATION-REQUIRED" class="headerlink" title="PROPAGATION_REQUIRED"></a>PROPAGATION_REQUIRED</h2><p>如果嵌套执行的方法要求一起执行成功或者一起回滚，则选择该事物传播级别。</p>
+<h2 id="PROPAGATION-REQUIRED-NEW"><a href="#PROPAGATION-REQUIRED-NEW" class="headerlink" title="PROPAGATION_REQUIRED_NEW"></a>PROPAGATION_REQUIRED_NEW</h2><p>如果嵌套执行的方法要求各自事务独立，不能进行相互影响，则选择本事务传播级别。</p>
+<h2 id="PROPAGATION-SUPPORTS"><a href="#PROPAGATION-SUPPORTS" class="headerlink" title="PROPAGATION_SUPPORTS"></a>PROPAGATION_SUPPORTS</h2><p>如果嵌套执行的方法要求一起执行成功或者一起回滚，单独执行时候以非事务方式执行，则选择该事物传播级别。</p>
+<h2 id="PROPAGATION-NOT-SUPPORTED"><a href="#PROPAGATION-NOT-SUPPORTED" class="headerlink" title="PROPAGATION_NOT_SUPPORTED"></a>PROPAGATION_NOT_SUPPORTED</h2><p>如果嵌套执行的方法要求内部嵌套方法不会对外部方法事务造成影响并且内部方法不需要事务，单独执行时候以非事务方式执行，则选择该事物传播级别。</p>
+<h2 id="PROPAGATION-MANDATORY"><a href="#PROPAGATION-MANDATORY" class="headerlink" title="PROPAGATION_MANDATORY"></a>PROPAGATION_MANDATORY</h2><p>如果嵌套执行的方法要求一起执行成功或者一起回滚，单独执行时候不允许以非事务方式执行，则选择该事物传播级别。</p>
+<h2 id="PROPAGATION-NEVER"><a href="#PROPAGATION-NEVER" class="headerlink" title="PROPAGATION_NEVER"></a>PROPAGATION_NEVER</h2><p>如果嵌套执行的方法要求内部方法不允许在事务中执行，单独执行时候必须以非事务方式执行，则选择该事物传播级别。</p>
+<h2 id="PROPAGATION-NESTED"><a href="#PROPAGATION-NESTED" class="headerlink" title="PROPAGATION_NESTED"></a>PROPAGATION_NESTED</h2><p>如果嵌套执行的方法要求内部方法出错只回滚自己，外部方法执行失败回滚所有，单独执行时候自动开启一个执行，则选择该事物传播级别。</p>
+<h1 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h1><p>我写了一个代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Transactional(rollbackFor = Exception.class)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> SomeThing <span class="hljs-title">action</span><span class="hljs-params">()</span> </span>&#123;<br>		<span class="hljs-comment">// 无事务注解，该方法匹配上了xml配置文件中的&quot;method*&quot;</span><br>    <span class="hljs-comment">// 向数据表 X 中插入数据</span><br>    methodA();<br>    <span class="hljs-comment">// 无事务注解，一定条件下会查询 X 表中的数据，当然也包含 methodA 插进去的</span><br>    actionB();<br>    <span class="hljs-keyword">return</span> something;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>当 actionB 方法查询 X 表数据时，死活查不到 methodA 刚刚插入的数据，对 sql 语句的检查也没发现问题，日志显示也确实执行了插入操作。我理解这三个方法应该都在一个事务里，即 action 创建的这个事务（Spring 默认传播级别为 required）</p>
+<p>后来在项目中的事务配置xml文件中发现这么一个配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--            其他代码             --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;method*&quot;</span> <span class="hljs-attr">rollback-for</span>=<span class="hljs-string">&quot;Exception&quot;</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">&quot;REQUIRED&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;*&quot;</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">&quot;NOT_SUPPORTED&quot;</span>/&gt;</span><br><span class="hljs-comment">&lt;!--            其他代码             --&gt;</span><br></code></pre></td></tr></table></figure>
+<p>导致执行过程中， action 和 methodA 在同一个事务里，actionB 并不在这个事务里，action 没有执行到 <em>return something;</em> 事务就没有提交，导致 actionB 的查询操作读取不到 methodA 插入的数据。</p>
+<p>因此，需要了解各个事务传播级别的特性及影响，对事务传播级别进行配置的时候也要考虑这些特性带来的影响，以免给自己或他人造成不必要的麻烦。</p>
 
             </div>
             <hr>
@@ -349,18 +287,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/22/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E7%BA%A7%E5%88%AB/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Spring事务传播级别</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/02/19/%E4%B8%89%E5%8D%81%E5%88%86%E9%92%9F%E5%B8%A6%E4%BD%A0%E4%BA%86%E8%A7%A3%E7%BB%8F%E6%B5%8E%E8%BF%90%E8%BD%AC%E5%8E%9F%E7%90%86/">
-                        <span class="hidden-mobile">三十分钟带你了解经济运转原理</span>
+                      <a href="/2021/02/21/Github-Hexo-Netlify%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/">
+                        <span class="hidden-mobile">Github+Hexo+Netlify搭建自己的博客</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

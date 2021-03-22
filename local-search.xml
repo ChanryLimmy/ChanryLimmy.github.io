@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>Spring事务传播级别</title>
+    <link href="/2021/03/22/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E7%BA%A7%E5%88%AB/"/>
+    <url>/2021/03/22/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E7%BA%A7%E5%88%AB/</url>
+    
+    <content type="html"><![CDATA[<p><img src="/2021/03/22/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E7%BA%A7%E5%88%AB/1.png" alt="汇总表"></p><h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><h2 id="PROPAGATION-REQUIRED"><a href="#PROPAGATION-REQUIRED" class="headerlink" title="PROPAGATION_REQUIRED"></a>PROPAGATION_REQUIRED</h2><p>如果嵌套执行的方法要求一起执行成功或者一起回滚，则选择该事物传播级别。</p><h2 id="PROPAGATION-REQUIRED-NEW"><a href="#PROPAGATION-REQUIRED-NEW" class="headerlink" title="PROPAGATION_REQUIRED_NEW"></a>PROPAGATION_REQUIRED_NEW</h2><p>如果嵌套执行的方法要求各自事务独立，不能进行相互影响，则选择本事务传播级别。</p><h2 id="PROPAGATION-SUPPORTS"><a href="#PROPAGATION-SUPPORTS" class="headerlink" title="PROPAGATION_SUPPORTS"></a>PROPAGATION_SUPPORTS</h2><p>如果嵌套执行的方法要求一起执行成功或者一起回滚，单独执行时候以非事务方式执行，则选择该事物传播级别。</p><h2 id="PROPAGATION-NOT-SUPPORTED"><a href="#PROPAGATION-NOT-SUPPORTED" class="headerlink" title="PROPAGATION_NOT_SUPPORTED"></a>PROPAGATION_NOT_SUPPORTED</h2><p>如果嵌套执行的方法要求内部嵌套方法不会对外部方法事务造成影响并且内部方法不需要事务，单独执行时候以非事务方式执行，则选择该事物传播级别。</p><h2 id="PROPAGATION-MANDATORY"><a href="#PROPAGATION-MANDATORY" class="headerlink" title="PROPAGATION_MANDATORY"></a>PROPAGATION_MANDATORY</h2><p>如果嵌套执行的方法要求一起执行成功或者一起回滚，单独执行时候不允许以非事务方式执行，则选择该事物传播级别。</p><h2 id="PROPAGATION-NEVER"><a href="#PROPAGATION-NEVER" class="headerlink" title="PROPAGATION_NEVER"></a>PROPAGATION_NEVER</h2><p>如果嵌套执行的方法要求内部方法不允许在事务中执行，单独执行时候必须以非事务方式执行，则选择该事物传播级别。</p><h2 id="PROPAGATION-NESTED"><a href="#PROPAGATION-NESTED" class="headerlink" title="PROPAGATION_NESTED"></a>PROPAGATION_NESTED</h2><p>如果嵌套执行的方法要求内部方法出错只回滚自己，外部方法执行失败回滚所有，单独执行时候自动开启一个执行，则选择该事物传播级别。</p><h1 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h1><p>我写了一个代码</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Transactional(rollbackFor = Exception.class)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> SomeThing <span class="hljs-title">action</span><span class="hljs-params">()</span> </span>&#123;<br><span class="hljs-comment">// 无事务注解，该方法匹配上了xml配置文件中的&quot;method*&quot;</span><br>    <span class="hljs-comment">// 向数据表 X 中插入数据</span><br>    methodA();<br>    <span class="hljs-comment">// 无事务注解，一定条件下会查询 X 表中的数据，当然也包含 methodA 插进去的</span><br>    actionB();<br>    <span class="hljs-keyword">return</span> something;<br>&#125;<br></code></pre></td></tr></table></figure><p>当 actionB 方法查询 X 表数据时，死活查不到 methodA 刚刚插入的数据，对 sql 语句的检查也没发现问题，日志显示也确实执行了插入操作。我理解这三个方法应该都在一个事务里，即 action 创建的这个事务（Spring 默认传播级别为 required）</p><p>后来在项目中的事务配置xml文件中发现这么一个配置：</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--            其他代码             --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;method*&quot;</span> <span class="hljs-attr">rollback-for</span>=<span class="hljs-string">&quot;Exception&quot;</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">&quot;REQUIRED&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;*&quot;</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">&quot;NOT_SUPPORTED&quot;</span>/&gt;</span><br><span class="hljs-comment">&lt;!--            其他代码             --&gt;</span><br></code></pre></td></tr></table></figure><p>导致执行过程中， action 和 methodA 在同一个事务里，actionB 并不在这个事务里，action 没有执行到 <em>return something;</em> 事务就没有提交，导致 actionB 的查询操作读取不到 methodA 插入的数据。</p><p>因此，需要了解各个事务传播级别的特性及影响，对事务传播级别进行配置的时候也要考虑这些特性带来的影响，以免给自己或他人造成不必要的麻烦。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术交流</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>技术交流</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Github+Hexo+Netlify搭建自己的博客</title>
     <link href="/2021/02/21/Github-Hexo-Netlify%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/"/>
     <url>/2021/02/21/Github-Hexo-Netlify%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</url>
